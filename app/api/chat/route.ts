@@ -1,3 +1,5 @@
+// app/api/chat/route.ts
+
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -12,17 +14,28 @@ export async function POST(req: Request) {
     },
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
-      messages: messages, // 会話履歴をそのまま投げる！
+      messages,
       temperature: 0.7,
     }),
   });
 
   const openaiResponse = await res.json();
-
   const reply = openaiResponse?.choices?.[0]?.message?.content || "";
+
+  // 仮の出典データを返す
+  const sources = [
+    {
+      title: "OpenAI API ドキュメント",
+      url: "https://platform.openai.com/docs",
+    },
+    {
+      title: "Next.js App Router Guide",
+      url: "https://nextjs.org/docs/app/building-your-application/routing",
+    },
+  ];
 
   return NextResponse.json({
     reply,
-    sources: [],
+    sources,
   });
 }
