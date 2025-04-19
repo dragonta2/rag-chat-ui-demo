@@ -41,4 +41,5 @@ coverage/
 # Optional REPL history
 .node_repl_history
 
+# Private Notes
 memo.md
