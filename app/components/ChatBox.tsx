@@ -13,18 +13,37 @@ export default function ChatBox() {
     if (!input.trim()) return;
     setLoading(true);
 
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: input }),
-    });
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input }),
+      });
 
-    const data = await res.json();
+      if (!res.ok) {
+        throw new Error(`API Error: ${res.status}`);
+      }
 
-    setMessages((prev) => [...prev, `You: ${input}`, `AI: ${data.reply}`]);
-    setSources(data.sources || []);
-    setInput("");
-    setLoading(false);
+      const data = await res.json();
+
+      setMessages((prev) => [
+        ...prev,
+        `You: ${input}`,
+        `AI: ${data.reply || "No response"}`,
+      ]);
+      setSources(data.sources || []);
+    } catch (err) {
+      console.error("送信エラー:", err);
+      setMessages((prev) => [
+        ...prev,
+        `You: ${input}`,
+        `AI: すまん、応答できなかったぜ。`,
+      ]);
+      setSources([]);
+    } finally {
+      setInput("");
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,6 +62,9 @@ export default function ChatBox() {
           className="flex-1 border border-gray-300 rounded-l p-2"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") sendMessage();
+          }}
         />
         <button
           onClick={sendMessage}
