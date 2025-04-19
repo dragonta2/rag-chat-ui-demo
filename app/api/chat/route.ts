@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-
-  const { message } = await req.json();
+  const body = await req.json();
+  const messages = body.messages;
 
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -12,28 +12,17 @@ export async function POST(req: Request) {
     },
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: message }],
+      messages: messages, // 会話履歴をそのまま投げる！
       temperature: 0.7,
     }),
   });
 
   const openaiResponse = await res.json();
 
-  // レスポンスのJSONを確認｜console
-  console.log("OpenAIからのレスポンス:", openaiResponse);
-
-  // OpenAIのエラーで choices が存在していない｜APIキー間違い or 使用上限超え
-  if (!openaiResponse.choices) {
-    console.error("OpenAIのレスポンスに choices が含まれていません:", openaiResponse);
-  }
-
-
-  const reply = openaiResponse?.choices?.[0]?.message?.content || null;
+  const reply = openaiResponse?.choices?.[0]?.message?.content || "";
 
   return NextResponse.json({
-    reply: reply,
+    reply,
     sources: [],
   });
-
 }
-

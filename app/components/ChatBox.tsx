@@ -3,9 +3,14 @@
 import { useState } from "react";
 import SourceList, { Source } from "./SourceList";
 
+type ChatMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
 export default function ChatBox() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [sources, setSources] = useState<Source[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -13,33 +18,26 @@ export default function ChatBox() {
     if (!input.trim()) return;
     setLoading(true);
 
+    const newMessages = [...messages, { role: "user", content: input }];
+
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ messages: newMessages }),
       });
-
-      if (!res.ok) {
-        throw new Error(`API Error: ${res.status}`);
-      }
 
       const data = await res.json();
 
-      setMessages((prev) => [
-        ...prev,
-        `You: ${input}`,
-        `AI: ${data.reply || "No response"}`,
-      ]);
+      const aiMessage: ChatMessage = {
+        role: "assistant",
+        content: data.reply || "（応答なし）",
+      };
+
+      setMessages([...newMessages, aiMessage]);
       setSources(data.sources || []);
     } catch (err) {
-      console.error("送信エラー:", err);
-      setMessages((prev) => [
-        ...prev,
-        `You: ${input}`,
-        `AI: すまん、応答できなかったぜ。`,
-      ]);
-      setSources([]);
+      console.error("エラー:", err);
     } finally {
       setInput("");
       setLoading(false);
@@ -50,8 +48,13 @@ export default function ChatBox() {
     <div className="max-w-xl mx-auto bg-white text-black shadow-lg rounded-lg p-4">
       <div className="space-y-2 mb-4">
         {messages.map((msg, idx) => (
-          <div key={idx} className="text-sm bg-gray-100 p-2 rounded">
-            {msg}
+          <div
+            key={idx}
+            className={`text-sm p-2 rounded ${
+              msg.role === "user" ? "bg-blue-100 text-right" : "bg-gray-100"
+            }`}
+          >
+            <strong>{msg.role === "user" ? "You" : "AI"}:</strong> {msg.content}
           </div>
         ))}
       </div>
