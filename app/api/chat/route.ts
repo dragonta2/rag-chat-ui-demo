@@ -1,10 +1,9 @@
-// app/api/chat/route.ts
-
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const body = await req.json();
   const messages = body.messages;
+  const latestMessage = messages[messages.length - 1]?.content || "";
 
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -22,18 +21,31 @@ export async function POST(req: Request) {
   const openaiResponse = await res.json();
   const reply = openaiResponse?.choices?.[0]?.message?.content || "";
 
-  // 仮の出典データを返す
-  const sources = [
-    {
-      title: "OpenAI API ドキュメント",
-      url: "https://platform.openai.com/docs",
-    },
-    {
+  // 🎯 質問内容によって sources を動的に切り替え！
+  const sources = [];
+
+  if (/next\.?js/i.test(latestMessage)) {
+    sources.push({
       title: "Next.js App Router Guide",
       url: "https://nextjs.org/docs/app/building-your-application/routing",
-    },
-  ];
+    });
+  }
 
+  if (/openai|api/i.test(latestMessage)) {
+    sources.push({
+      title: "OpenAI API ドキュメント",
+      url: "https://platform.openai.com/docs",
+    });
+  }
+
+  if (/embedding|ベクトル/i.test(latestMessage)) {
+    sources.push({
+      title: "LangChain Embeddings 入門",
+      url: "https://docs.langchain.com/docs/modules/data_connection/retrievers",
+    });
+  }
+
+  // デフォルト：出典なし
   return NextResponse.json({
     reply,
     sources,
