@@ -50,8 +50,8 @@ export default function ChatBox() {
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white text-black shadow-lg rounded-lg p-4">
-      <div className="space-y-2 mb-4">
+    <div className="max-w-xl mx-auto bg-white text-black shadow-lg rounded-lg p-4 mt-8">
+      <div className="space-y-2">
         {messages.map((msg, idx) => (
           <div
             key={idx}
