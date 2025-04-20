@@ -20,7 +20,10 @@ export default function ChatBox() {
     if (!input.trim()) return;
     setLoading(true);
 
-    const newMessages = [...messages, { role: "user", content: input }];
+    const newMessages: ChatMessage[] = [
+      ...messages,
+      { role: "user" as const, content: input },
+    ];
 
     try {
       const res = await fetch("/api/chat", {
@@ -32,7 +35,7 @@ export default function ChatBox() {
       const data = await res.json();
 
       const aiMessage: ChatMessage = {
-        role: "assistant",
+        role: "assistant" as const,
         content: data.reply,
       };
 
