@@ -1,3 +1,5 @@
+// app/components/ChatBox.tsx
+
 "use client";
 
 import { useState } from "react";
@@ -29,10 +31,10 @@ export default function ChatBox() {
 
       const data = await res.json();
 
-      const aiMessage = {
+      const aiMessage: ChatMessage = {
         role: "assistant",
         content: data.reply,
-      } as const;
+      };
 
       setMessages([...newMessages, aiMessage]);
       setSources(data.sources || []);
