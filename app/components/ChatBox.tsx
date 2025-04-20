@@ -29,10 +29,10 @@ export default function ChatBox() {
 
       const data = await res.json();
 
-      const aiMessage: ChatMessage = {
+      const aiMessage = {
         role: "assistant",
-        content: data.reply || "（応答なし）",
-      };
+        content: data.reply,
+      } as const;
 
       setMessages([...newMessages, aiMessage]);
       setSources(data.sources || []);
