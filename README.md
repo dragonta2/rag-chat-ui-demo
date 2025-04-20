@@ -42,10 +42,3 @@ Next.js（App Router） + OpenAI API + Jest で構成されています。
 > また、将来的な拡張（ベクトルDBやRAG本格実装）にもスムーズに移行しやすい構成を選定。
 
 ---
-
-## 🛠 セットアップ手順
-
-```bash
-git clone https://github.com/dragonta2/rag-chat-ui-demo.git
-cd rag-chat-ui-demo
-npm install
