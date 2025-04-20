@@ -67,6 +67,7 @@ export default function ChatBox() {
       <div className="flex">
         <input
           type="text"
+          placeholder="知りたいことを入力してください"
           className="flex-1 border border-gray-300 rounded-l p-2"
           value={input}
           onChange={(e) => setInput(e.target.value)}
