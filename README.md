@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RAG Chat UI Demo
 
-## Getting Started
+🧠 AIチャットに "出典表示" を追加したシンプルな RAG（Retrieval-Augmented Generation）風UIのデモプロジェクトです。  
+Next.js（App Router） + OpenAI API + Jest で構成されています。
 
-First, run the development server:
+---
+
+## 🚀 機能概要
+
+- OpenAI API（gpt-3.5-turbo）と連携したチャットUI
+- ユーザーとAIの会話履歴を表示
+- 会話内容から出典（sources）を簡易ロジックで判定・表示
+- プレーンなRAG体験のデモとして利用可能
+- Jestでのユニットテスト実装済み
+
+---
+
+## 🔧 技術構成
+
+| 項目 | 内容 |
+|------|------|
+| フレームワーク | [Next.js 15（App Router）](https://nextjs.org/docs/app) |
+| 言語 | TypeScript |
+| スタイリング | Tailwind CSS |
+| テスト | Jest + @testing-library/react |
+| AI連携 | OpenAI API（gpt-3.5-turbo） |
+
+---
+
+## ✅ 技術選定の理由
+
+- **Next.js**: App Router対応で最新構成。将来的なSSG/SSRの使い分けが柔軟。Reactベースで学習コストも低い。
+- **TypeScript**: 型安全かつ保守性の高い開発が可能。
+- **Jest**: フロントエンドのユニットテストで実績豊富。
+- **Tailwind CSS**: スタイリングを高速かつ直感的に行える。
+- **OpenAI API**: シンプルなREST APIで生成AIをすぐに活用可能。
+
+
+<br>
+> 📘 **補足：**
+> 過去にNext.jsやJestを利用した経験があり、短期間で構築できる見込みが立っていたため。
+> また、将来的な拡張（ベクトルDBやRAG本格実装）にもスムーズに移行しやすい構成を選定。
+
+---
+
+## 🛠 セットアップ手順
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone https://github.com/dragonta2/rag-chat-ui-demo.git
+cd rag-chat-ui-demo
+npm install
