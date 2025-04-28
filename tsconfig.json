@@ -19,12 +19,7 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@components/*": [
-        "app/components/*"
-      ],
-      "@api/*": [
-        "app/api/*"
-      ]
+      "@/*": ["./*"]
     },
     "incremental": true,
     "plugins": [

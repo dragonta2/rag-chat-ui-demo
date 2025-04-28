@@ -1,5 +1,10 @@
-import ChatBox from "./components/ChatBox";
+import ChatBox from "../components/ChatBox";
 
-export default function Home() {
-  return <ChatBox />;
+export default function HomePage() {
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-4">ホーム</h1>
+      <ChatBox />
+    </div>
+  )
 }
