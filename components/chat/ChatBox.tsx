@@ -3,7 +3,7 @@
 "use client";
 
 import { useState } from "react";
-import SourceList, { Source } from "./SourceList";
+import SourceList, { Source } from "@/components/chat/SourceList";
 
 type ChatMessage = {
   role: "user" | "assistant";

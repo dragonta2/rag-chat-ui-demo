@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import SourceList, { Source } from "./SourceList";
+import SourceList, { Source } from "@/components/chat/SourceList";
 
 describe("SourceList", () => {
   const mockSources: Source[] = [
