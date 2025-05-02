@@ -3,7 +3,8 @@
 "use client";
 
 import { useState } from "react";
-import SourceList, { Source } from "@/components/chat/SourceList";
+import { MessageList } from "@/components/chat/MessageList";
+import { MessageInput } from "@/components/chat/MessageInput";
 
 type ChatMessage = {
   role: "user" | "assistant";
@@ -11,80 +12,40 @@ type ChatMessage = {
 };
 
 export default function ChatBox() {
-  const [input, setInput] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [sources, setSources] = useState<Source[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState("");
 
-  const sendMessage = async () => {
+  const handleSubmit = () => {
     if (!input.trim()) return;
-    setLoading(true);
 
-    const newMessages: ChatMessage[] = [
-      ...messages,
-      { role: "user" as const, content: input },
-    ];
+    const newMessage: ChatMessage = {
+      role: "user",
+      content: input.trim(),
+    };
 
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages }),
-      });
+    setMessages([...messages, newMessage]);
+    setInput("");
 
-      const data = await res.json();
-
-      const aiMessage: ChatMessage = {
-        role: "assistant" as const,
-        content: data.reply,
-      };
-
-      setMessages([...newMessages, aiMessage]);
-      setSources(data.sources || []);
-    } catch (err) {
-      console.error("エラー:", err);
-    } finally {
-      setInput("");
-      setLoading(false);
-    }
+    // 仮：アシスタント返信（デモ用）
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "これはAIの返答です。",
+        },
+      ]);
+    }, 500);
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white text-black shadow-lg rounded-lg p-4 mt-8">
-      <div className="space-y-2">
-        {messages.map((msg, idx) => (
-          <div
-            key={idx}
-            className={`text-sm p-2 rounded ${
-              msg.role === "user" ? "bg-blue-100 text-right" : "bg-gray-100"
-            }`}
-          >
-            <strong>{msg.role === "user" ? "You" : "AI"}:</strong> {msg.content}
-          </div>
-        ))}
-      </div>
-
-      <div className="flex">
-        <input
-          type="text"
-          placeholder="知りたいことを入力してください"
-          className="flex-1 border border-gray-300 rounded-l p-2"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") sendMessage();
-          }}
-        />
-        <button
-          onClick={sendMessage}
-          disabled={loading}
-          className="bg-blue-600 text-white px-4 py-2 rounded-r disabled:opacity-50"
-        >
-          {loading ? "..." : "Send"}
-        </button>
-      </div>
-
-      <SourceList sources={sources} />
+    <div className="flex flex-col h-full border rounded shadow">
+      <MessageList messages={messages} />
+      <MessageInput
+        input={input}
+        onInputChange={setInput}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 }
