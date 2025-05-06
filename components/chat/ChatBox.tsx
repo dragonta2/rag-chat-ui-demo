@@ -1,10 +1,11 @@
-// app/components/chat/ChatBox.tsx
+// components/chat/ChatBox.tsx
 
 "use client";
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { MessageList } from "@/components/chat/MessageList";
 import { MessageInput } from "@/components/chat/MessageInput";
+import { ClearStorageChatButton } from "@/components/chat/ClearStorageChatButton";
 
 export type ChatMessage = {
 
@@ -18,6 +19,7 @@ export type Source = {
   url: string;
 };
 
+
 export function ChatBox() {
 
   // userの送信した内容 と AIからの返答がブチこまれる、配列型で定義
@@ -26,6 +28,31 @@ export function ChatBox() {
   const [loading, setLoading] = useState(false);
   // 出典情報がブチこまれる、配列型で定義
   const [sources, setSources] = useState<Source[]>([]);
+
+  // 初回ロード時にlocalStorage｜LSから読み込む
+  useEffect(() => {
+    const saved = localStorage.getItem("chat-messages");
+
+    // LSにデータが有ったら、JSオブジェクト化してmessagesを状態更新
+    if (saved) {
+      setMessages(JSON.parse(saved));
+    }
+  }, []);
+
+  // messagesが変わるたび　、LSへ保存
+  useEffect(() => {
+
+    // 空配列（初期化時）じゃなかったら、LS｜chat-messagesにJSON文字列化して、messages配列の内容を保存する
+    if (messages.length > 0) {
+      localStorage.setItem("chat-messages", JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  const clearChat = () => {
+    localStorage.removeItem("chat-messages");
+    setMessages([]);
+    setSources([]);
+  };
 
   // 入力されたメッセージを state に追加し、/api/chat へ POST。
   // AIからのレスポンスを受け取って messages に追加、sources に出典リンクを格納。
@@ -117,6 +144,11 @@ export function ChatBox() {
             </ul>
           </div>
         )}
+
+        <div className="p-2 text-right">
+          <ClearStorageChatButton onClear={clearChat} />
+        </div>
+
         <MessageInput
           input={input}
           onInputChange={setInput}
