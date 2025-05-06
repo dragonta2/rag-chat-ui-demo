@@ -1,7 +1,7 @@
 // .storybook/preview.ts
 
 import type { Preview } from '@storybook/react'
-
+// import { themes } from "@storybook/theming";
 import "../styles/globals.css"; // Tailwindを Storybook側で適用
 
 export const parameters = {
