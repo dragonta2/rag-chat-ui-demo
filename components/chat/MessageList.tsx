@@ -1,8 +1,11 @@
 // app/components/chat/MessageList.tsx
 
-// import { ChatMessage } from "@/components/chat/ChatBox";
+// 定義された ChatMessage形を呼び出す
+import { ChatMessage } from "@/components/chat/ChatBox";
 import { MessageItem } from "@/components/chat/MessageItem";
 
+
+// ChatBox.tsxから渡ってきた型エイリアスで型を持ってくる
 type Props = {
   messages: ChatMessage[];
 };

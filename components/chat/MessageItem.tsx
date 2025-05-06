@@ -16,8 +16,8 @@ export function MessageItem({ role, content }: Props) {
       className={clsx(
         "w-full",
         "flex",
+        "animate-fade-in",
         isUser ? "justify-end" : "justify-start",
-        "animate-fade-in"
       )}
     >
       <div className="flex flex-col items-start max-w-xs">
@@ -37,8 +37,8 @@ export function MessageItem({ role, content }: Props) {
           className={clsx(
             "px-4 py-2 rounded-lg shadow",
             isUser
-              ? "bg-blue-500 text-white self-end rounded-br-none"
-              : "bg-gray-200 text-gray-900 self-start rounded-bl-none"
+              ? "bg-blue-500 text-white self-end rounded-tr-none"
+              : "bg-gray-200 text-gray-900 self-start rounded-tl-none"
           )}
         >
 

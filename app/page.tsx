@@ -1,4 +1,6 @@
-import ChatBox from "@/components/chat/ChatBox";
+// app/page.tsx
+
+import { ChatBox } from "@/components/chat/ChatBox";
 
 export default function HomePage() {
   return (
