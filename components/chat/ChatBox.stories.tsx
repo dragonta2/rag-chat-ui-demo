@@ -1,10 +1,7 @@
 import { ChatBox } from "./ChatBox";
 
-export default {
+const meta = {
   title: "Chat/ChatBox",
   component: ChatBox,
 };
-
-export const Default = {
-  render: () => <ChatBox />,
-};
+export default meta;
