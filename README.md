@@ -1,6 +1,6 @@
 # RAG Chat UI Demo
 
-🧠 AIチャットに "出典表示" を追加したシンプルな RAG（Retrieval-Augmented Generation）風UIのデモプロジェクトです。  
+🧠 AIチャットに "出典表示" を追加したシンプルな RAG（Retrieval-Augmented Generation）風UIのデモプロジェクトです。
 Next.js（App Router） + OpenAI API + Jest で構成されています。
 
 ---
