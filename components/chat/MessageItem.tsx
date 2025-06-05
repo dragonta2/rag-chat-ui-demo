@@ -29,7 +29,7 @@ export function MessageItem({ role, content }: Props) {
           )}
         >
           <span className="mr-1">{icon}</span>
-          <span>{name}</span>
+          <span className="text-white font-bold">{name}</span>
         </div>
 
         {/* 吹き出し 本体 */}

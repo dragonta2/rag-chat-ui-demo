@@ -25,6 +25,7 @@ yarn-error.log*
 # IDE-specific files
 .idea/
 .vscode/
+.history/
 
 # Testing
 coverage/
@@ -43,6 +44,7 @@ coverage/
 
 # Experimental BK files
 **/_BK_*
+
 
 # Private Notes
 _doc_dta2
